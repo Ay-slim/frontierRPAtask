@@ -54,3 +54,10 @@ Error response 2 (e.g. Timed out request or server problems):
 
 ![test](https://github.com/Ay-slim/frontierRPAtask/blob/main/frontier.PNG?raw=true)
 
+## Files structure
+-index.ts: The main file where the express app is set up to listen for requests and it calls a couple of other files in which the app's functionalities are abstracted away.
+-controller.ts: The workhorse of the app. It accepts the requests routed through the app in index.js and uses the Puppeteer library to connect to the form page, fill in the details, downloada and upload the resume (through helper functions) and return the appropriate success or error response.
+-validator.ts: Enforces validation rules on the incoming request before it reaches index.ts.
+-helpers.ts: Contains various helper functions such as logging and download/upload
+-test.ts: Holds the two test cases for automatically confirming whether the endpoint works.
+-readme.md: Of course, you're reading me!
