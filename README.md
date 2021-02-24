@@ -3,8 +3,8 @@
 ## Description
 This simple endpoint accepts json data and submits it (using the Puppeteer npm library) to the form URL, returning appropriate responses as shown below:
 
-POST /forms/frontier/applications
 ```
+POST /forms/frontier/applications
 {
   "firstname": "Dangbana",
   "lastname": "Orisha",
@@ -15,7 +15,7 @@ POST /forms/frontier/applications
   "resume": "https://frontier-public-assets.s3-us-west-2.amazonaws.com/05oo7evmr4hsc7ufvmdcpojlh1ki1rd3benjo0g1_Brian_CV.docx"  # link to publicliy available Resume
 }
 
-Successful response:
+### Successful response:
 201 Created
 {
   "status": "success",
@@ -31,14 +31,14 @@ Successful response:
   }
 }
 
-Error response 1 (e.g. Missing required field or invalid type)
+### Error response 1 (e.g. Missing required field or invalid type)
 422 Unprocessable Entity
 {
   "status": "failed",
   "message": "\"email\" is required"
 }
 
-Error response 2 (e.g. Timed out request or server problems)
+### Error response 2 (e.g. Timed out request or server problems)
 500 Internal Server Error
 {
   "status": "failed",
