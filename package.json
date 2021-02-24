@@ -6,7 +6,7 @@
   "scripts": {
     "postbuild": "echo \"Build finished. App live \"",
     "test": "mocha --exit --timeout 50000 -r ts-node/register test.ts",
-    "start": "tsc && node build/index.js"
+    "start": "node build/index.js"
   },
   "keywords": [
     "befrontier",
