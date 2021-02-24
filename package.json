@@ -4,9 +4,11 @@
   "description": "An attempt for the junior backend developer technical test at Frontier",
   "main": "index.ts",
   "scripts": {
+    "tsc": "tsc",
     "postbuild": "echo \"Build finished. App live \"",
     "test": "mocha --exit --timeout 50000 -r ts-node/register test.ts",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "postinstall": "npm run tsc"
   },
   "keywords": [
     "befrontier",
