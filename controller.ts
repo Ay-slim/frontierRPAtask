@@ -39,7 +39,6 @@ export async function rpaController (req: Request, res: Response) {
         browser.close()
         res.status(201).json({ status: 'success', message: 'Your application has been sent, good luck!', data: candidateData })
     } catch(error){
-        console.log(error)
         logger('error', error?.message || error)
         res.status(500).json({ status: 'failed', message: 'Something went wrong, please try again or contact support'})
     }
