@@ -8,7 +8,7 @@ POST /forms/frontier/applications
 {
   "firstname": "Dangbana",
   "lastname": "Orisha",
-   "email": "dangbana@orisha.com",
+  "email": "dangbana@orisha.com",
   "phone": "+193040202",
   "location": "Oregon",
   "linkedin": "linkedin.com/dangbanaorisha" 
