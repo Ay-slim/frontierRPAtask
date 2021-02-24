@@ -19,3 +19,5 @@ POST /forms/frontier/applications
 - CD into the directory and run _npm install_ or _npm i_ to install dependencies and libraries
 - Still in the directory, run _npm start_ at your terminal to get the server running on port 5500 or a specified port in your .env file.
 - Two unit tests were written to check that the endpoint works as it should and sends the appropriate responses. The first checks for a successful response while the second test checks that input validation is enforced. Run _npm test_ to initiate the tests (note that the first test might take a while to complete)
+
+![test](https://github.com/Ay-slim/frontierRPAtask/blob/main/frontier.PNG?raw=true)
