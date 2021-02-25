@@ -4,6 +4,7 @@
 This simple endpoint accepts json data and submits it (using the Puppeteer npm library) to the form URL, returning appropriate responses as shown below:
 
 ```
+Request:
 POST /forms/frontier/applications
 {
   "firstname": "Dangbana",
@@ -57,9 +58,9 @@ Error response 2 (e.g. Timed out request or server problems):
 ## Files structure
 -index.ts: The main file where the express app is set up to listen for requests and it calls a couple of other files in which the app's functionalities are abstracted away.
 
--**controller.ts:** The workhorse of the app. It accepts the requests routed through the app in index.js and uses the Puppeteer library to connect to the form page, fill in the details, downloada and upload the resume (through helper functions) and return the appropriate success or error response.
+-**controller.ts:** The workhorse of the app; controller.ts accepts the requests routed through the app in index.ts and uses the Puppeteer library to connect to the form page, fills in the details, downloads and uploads the resume (through helper functions), and returns the appropriate success or error response.
 
--**validator.ts:** Enforces validation rules on the incoming request before it reaches index.ts.
+-**validator.ts:** Enforces validation rules on the incoming request before it reaches controller.ts.
 
 -**helpers.ts:** Contains various helper functions such as logging and download/upload
 
