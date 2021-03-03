@@ -29,7 +29,7 @@ export async function rpaController (req: Request, res: Response) {
         await page.type('[name = "linkedin"]', candidateData.linkedin)
         await page.click('[href="/jobs/190562/apply/resume"]')
         await page.waitForTimeout(1000)
-        await downloadResume("https://frontier-public-assets.s3-us-west-2.amazonaws.com/05oo7evmr4hsc7ufvmdcpojlh1ki1rd3benjo0g1_Brian_CV.docx")
+        await downloadResume(candidateData.resume)
         await uploadResume(page)
         await page.waitForTimeout(1000)
         await page.click('[href="/jobs/190562/apply/review"]')
