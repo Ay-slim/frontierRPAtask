@@ -14,7 +14,7 @@ app.use(APP_USE_LIMIT)
 
 export const FORM_URL = '/forms/frontier/applications';
 
-app.post(FORM_URL, validateCandidateData, rpaController)
+app.post(FORM_URL, validateCandidateData, rpaController);
 
 app.listen(process.env.PORT || 5500, () =>
   console.log(`App running on port ${process.env.PORT || 5500}`)
