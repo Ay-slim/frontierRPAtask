@@ -1,7 +1,7 @@
 import { uploadResume, downloadResume } from './helpers'
 import puppeteer from "puppeteer"; 
 import { Request, Response } from 'express'
-import { logger } from './helpers'
+import { logger, asyncCompletionViaWebHook } from './helpers'
 
 /**
  * @function
@@ -30,15 +30,9 @@ export async function rpaController (req: Request, res: Response) {
         await page.click('[href="/jobs/190562/apply/resume"]')
         await page.waitForTimeout(1000)
         await downloadResume(candidateData.resume)
-        await uploadResume(page)
-        await page.waitForTimeout(1000)
-        await page.click('[href="/jobs/190562/apply/review"]')
-        await page.waitForTimeout(2000)
-        await page.click('[href="/jobs/190562/apply/done"]')
-        await page.waitForTimeout(1000)
-        browser.close()
-        res.status(201).json({ status: 'success', message: 'Your application has been sent, good luck!', data: candidateData })
-    } catch(error){
+        asyncCompletionViaWebHook({page: page, browser: browser, candidateData: candidateData});//
+        res.status(201).json({ status: 'success', message: `Thank you for applying! We are uploading your data and this may take a while. We will notify you as soon as it's done`})
+    } catch(error: any){
         logger('error', error?.message || error)
         res.status(500).json({ status: 'failed', message: 'Something went wrong, please try again or contact support'})
     }

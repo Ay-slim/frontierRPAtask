@@ -12,7 +12,8 @@ const candidateDataSchema = object({
     phone: string(),
     location: string().required(),
     linkedin: string(),
-    resume: string().required()
+    resume: string().required(),
+    webhook: string()
   });
 
 /**
@@ -31,7 +32,7 @@ export async function validateCandidateData(
     const valid = await candidateDataSchema.validateAsync(req.body);
     req.body = valid;
     return next();
-  } catch (error) {
+  } catch (error: any) {
     logger('error', error?.message || error)
     res.status(422).json({status: 'failed', message: error.details[0].message});
   }

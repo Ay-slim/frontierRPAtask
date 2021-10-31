@@ -3,9 +3,12 @@ import request from "request";
 import fs from "fs";
 import RateLimiter from 'express-rate-limit';
 import winston from 'winston';
+import { config } from 'dotenv';
 
-const resumePath = path.resolve('resume')
+config();
 
+const resumePath = path.resolve('resume');
+const { WEBHOOKURL } = process.env;
 /**
  * @function
  * Clicks on the resume upload button and sends the file path for upload
@@ -79,3 +82,34 @@ const errorLogger = winston.createLogger({
 export function logger(level: 'warning' | 'error' | 'info', logInfo: any) {
     return errorLogger.log(level, logInfo);
   }
+
+export async function asyncCompletionViaWebHook (packet: any) {
+  const { page, browser, candidateData } = packet;
+  const webhook = candidateData.webhook || WEBHOOKURL;
+  function sendWebHook (body: any) { //To avoid DRY
+    request.post(webhook, {
+      body: body
+      }
+    )
+  };
+  try{
+    await uploadResume(page);
+    await page.waitForTimeout(1000);
+    await page.click('[href="/jobs/190562/apply/review"]');
+    await page.waitForTimeout(2000);
+    await page.click('[href="/jobs/190562/apply/done"]');
+    await page.waitForTimeout(1000);
+    browser.close();
+    sendWebHook({
+      data: candidateData, 
+      status: 'Success', 
+      message: 'Your data has been uploaded successfully. Good luck!'
+      })
+  }catch (err: any) {
+    sendWebHook({
+      data: null,
+      status: 'Error',
+      message: err.message
+    })
+  }
+}

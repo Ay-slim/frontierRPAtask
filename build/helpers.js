@@ -39,13 +39,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logger = exports.APP_USE_LIMIT = exports.downloadResume = exports.uploadResume = void 0;
+exports.asyncCompletionViaWebHook = exports.logger = exports.APP_USE_LIMIT = exports.downloadResume = exports.uploadResume = void 0;
 var path_1 = __importDefault(require("path"));
 var request_1 = __importDefault(require("request"));
 var fs_1 = __importDefault(require("fs"));
 var express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 var winston_1 = __importDefault(require("winston"));
+var dotenv_1 = require("dotenv");
+dotenv_1.config();
 var resumePath = path_1.default.resolve('resume');
+var WEBHOOKURL = process.env.WEBHOOKURL;
 /**
  * @function
  * Clicks on the resume upload button and sends the file path for upload
@@ -121,3 +124,59 @@ function logger(level, logInfo) {
     return errorLogger.log(level, logInfo);
 }
 exports.logger = logger;
+function asyncCompletionViaWebHook(packet) {
+    return __awaiter(this, void 0, void 0, function () {
+        function sendWebHook(body) {
+            request_1.default.post(webhook, {
+                body: body
+            });
+        }
+        var page, browser, candidateData, webhook, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    page = packet.page, browser = packet.browser, candidateData = packet.candidateData;
+                    webhook = candidateData.webhook || WEBHOOKURL;
+                    ;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 8, , 9]);
+                    return [4 /*yield*/, uploadResume(page)];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, page.waitForTimeout(1000)];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, page.click('[href="/jobs/190562/apply/review"]')];
+                case 4:
+                    _a.sent();
+                    return [4 /*yield*/, page.waitForTimeout(2000)];
+                case 5:
+                    _a.sent();
+                    return [4 /*yield*/, page.click('[href="/jobs/190562/apply/done"]')];
+                case 6:
+                    _a.sent();
+                    return [4 /*yield*/, page.waitForTimeout(1000)];
+                case 7:
+                    _a.sent();
+                    browser.close();
+                    sendWebHook({
+                        data: candidateData,
+                        status: 'Success',
+                        message: 'Your data has been uploaded successfully. Good luck!'
+                    });
+                    return [3 /*break*/, 9];
+                case 8:
+                    err_1 = _a.sent();
+                    sendWebHook({
+                        data: null,
+                        status: 'Error',
+                        message: err_1.message
+                    });
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.asyncCompletionViaWebHook = asyncCompletionViaWebHook;

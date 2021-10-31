@@ -50,7 +50,8 @@ var candidateDataSchema = joi_1.object({
     phone: joi_1.string(),
     location: joi_1.string().required(),
     linkedin: joi_1.string(),
-    resume: joi_1.string().required()
+    resume: joi_1.string().required(),
+    webhook: joi_1.string()
 });
 /**
  * @function

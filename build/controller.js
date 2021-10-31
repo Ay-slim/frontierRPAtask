@@ -56,7 +56,7 @@ function rpaController(req, res) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 24, , 25]);
+                    _a.trys.push([0, 18, , 19]);
                     candidateData = req.body;
                     return [4 /*yield*/, puppeteer_1.default.launch({ headless: true })];
                 case 1:
@@ -106,36 +106,18 @@ function rpaController(req, res) {
                     return [4 /*yield*/, page.waitForTimeout(1000)];
                 case 16:
                     _a.sent();
-                    return [4 /*yield*/, helpers_1.downloadResume("https://frontier-public-assets.s3-us-west-2.amazonaws.com/05oo7evmr4hsc7ufvmdcpojlh1ki1rd3benjo0g1_Brian_CV.docx")];
+                    return [4 /*yield*/, helpers_1.downloadResume(candidateData.resume)];
                 case 17:
                     _a.sent();
-                    return [4 /*yield*/, helpers_1.uploadResume(page)];
+                    helpers_2.asyncCompletionViaWebHook({ page: page, browser: browser, candidateData: candidateData }); //
+                    res.status(201).json({ status: 'success', message: "Thank you for applying! We are uploading your data and this may take a while. We will notify you as soon as it's done" });
+                    return [3 /*break*/, 19];
                 case 18:
-                    _a.sent();
-                    return [4 /*yield*/, page.waitForTimeout(1000)];
-                case 19:
-                    _a.sent();
-                    return [4 /*yield*/, page.click('[href="/jobs/190562/apply/review"]')];
-                case 20:
-                    _a.sent();
-                    return [4 /*yield*/, page.waitForTimeout(2000)];
-                case 21:
-                    _a.sent();
-                    return [4 /*yield*/, page.click('[href="/jobs/190562/apply/done"]')];
-                case 22:
-                    _a.sent();
-                    return [4 /*yield*/, page.waitForTimeout(1000)];
-                case 23:
-                    _a.sent();
-                    browser.close();
-                    res.status(201).json({ status: 'success', message: 'Your application has been sent, good luck!', data: candidateData });
-                    return [3 /*break*/, 25];
-                case 24:
                     error_1 = _a.sent();
                     helpers_2.logger('error', (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) || error_1);
                     res.status(500).json({ status: 'failed', message: 'Something went wrong, please try again or contact support' });
-                    return [3 /*break*/, 25];
-                case 25: return [2 /*return*/];
+                    return [3 /*break*/, 19];
+                case 19: return [2 /*return*/];
             }
         });
     });
